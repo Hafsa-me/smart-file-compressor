@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huffman Encoding System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗜️ Huffman Encoding System</h1>
+            <p>Lossless Data Compression</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('encode')">Encode</button>
+            <button class="tab-btn" onclick="showTab('decode')">Decode</button>
+        </div>
+
+        <!-- ENCODE TAB -->
+        <div id="encode-tab" class="tab-content active">
+            <h2>Compress File</h2>
+            <div class="upload-section">
+                <label for="encode-file" class="file-label">
+                    📁 Choose Text File to Compress
+                </label>
+                <input type="file" id="encode-file" accept=".txt" onchange="handleEncodeFile(event)">
+                <div id="encode-filename" class="filename"></div>
+            </div>
+            
+            <button class="btn-primary" onclick="encodeFile()">🗜️ Compress File</button>
+            
+            <div id="encode-result" class="result-section hidden">
+                <h3>Compression Results</h3>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Original Size:</span>
+                        <span id="original-size" class="stat-value">0 bytes</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Compressed Size:</span>
+                        <span id="compressed-size" class="stat-value">0 bytes</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Compression Ratio:</span>
+                        <span id="compression-ratio" class="stat-value">0%</span>
+                    </div>
+                </div>
+                
+                <div class="frequency-table" id="frequency-table"></div>
+                
+                <div class="download-section">
+                    <button class="btn-download" onclick="downloadFile('compressed')">
+                        ⬇️ Download Compressed File
+                    </button>
+                    <button class="btn-download" onclick="downloadFile('tree')">
+                        ⬇️ Download Tree File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- DECODE TAB -->
+        <div id="decode-tab" class="tab-content">
+            <h2>Decompress File</h2>
+            <div class="upload-section">
+                <label for="compressed-file" class="file-label">
+                    📁 Choose Compressed File (.bin)
+                </label>
+                <input type="file" id="compressed-file" accept=".bin" onchange="handleCompressedFile(event)">
+                <div id="compressed-filename" class="filename"></div>
+            </div>
+            
+            <div class="upload-section">
+                <label for="tree-file" class="file-label">
+                    📁 Choose Tree File (.huf)
+                </label>
+                <input type="file" id="tree-file" accept=".huf" onchange="handleTreeFile(event)">
+                <div id="tree-filename" class="filename"></div>
+            </div>
+            
+            <button class="btn-primary" onclick="decodeFile()">📂 Decompress File</button>
+            
+            <div id="decode-result" class="result-section hidden">
+                <h3>Decompression Successful!</h3>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Decompressed Size:</span>
+                        <span id="decompressed-size" class="stat-value">0 bytes</span>
+                    </div>
+                </div>
+                
+                <div class="download-section">
+                    <button class="btn-download" onclick="downloadFile('decompressed')">
+                        ⬇️ Download Decompressed File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+
+        <div id="error-message" class="error-message hidden"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
