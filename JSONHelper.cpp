@@ -1,8 +1,3 @@
-/*
- * File: JSONHelper.cpp
- * Location: backend/src/JSONHelper.cpp
- * Description: Implementation of JSON helper functions
- */
 
 #include "JSONHelper.h"
 #include <iostream>
@@ -10,7 +5,6 @@
 
 using namespace std;
 
-// Escape special characters for JSON format
 string JSONHelper::escapeJson(const string& str) {
     string result;
     for (char ch : str) {
@@ -26,7 +20,6 @@ string JSONHelper::escapeJson(const string& str) {
     return result;
 }
 
-// Convert special characters to readable strings
 string JSONHelper::charToString(char ch) {
     if (ch == ' ') return "SPACE";
     if (ch == '\n') return "NEWLINE";
@@ -35,13 +28,11 @@ string JSONHelper::charToString(char ch) {
     return string(1, ch);
 }
 
-// Output encoding results in JSON format
 void JSONHelper::outputEncodeJSON(size_t originalSize, 
                                    size_t compressedSize, 
                                    size_t treeSize,
                                    const unordered_map<char, int>& frequencies,
                                    const unordered_map<char, string>& codes) {
-    // Calculate compression ratio
     double ratio = (1.0 - (double)(compressedSize + treeSize) / originalSize) * 100;
     
     cout << "{" << endl;
@@ -60,7 +51,6 @@ void JSONHelper::outputEncodeJSON(size_t originalSize,
         cout << "      \"char\": \"" << escapeJson(charToString(pair.first)) << "\"," << endl;
         cout << "      \"freq\": " << pair.second << "," << endl;
         
-        // Add Huffman code if available
         if (codes.find(pair.first) != codes.end()) {
             cout << "      \"code\": \"" << codes.at(pair.first) << "\"" << endl;
         } else {
@@ -74,7 +64,6 @@ void JSONHelper::outputEncodeJSON(size_t originalSize,
     cout << "}" << endl;
 }
 
-// Output decoding results in JSON format
 void JSONHelper::outputDecodeJSON(size_t decompressedSize) {
     cout << "{" << endl;
     cout << "  \"success\": true," << endl;

@@ -1,15 +1,9 @@
-/*
- * File: FileHandler.cpp
- * Location: backend/src/FileHandler.cpp
- * Description: Implementation of file handling operations
- */
 
 #include "FileHandler.h"
 #include <fstream>
 #include <iostream>
 #include <string>
 
-// Read entire text file into string
 bool FileHandler::readTextFile(const string& filename, string& content) {
     ifstream inputFile(filename);
     
@@ -26,7 +20,6 @@ bool FileHandler::readTextFile(const string& filename, string& content) {
     return content.length() !=0;
 }
 
-// Write string to text file
 bool FileHandler::writeTextFile(const string& filename, const string& content) {
     ofstream outputFile(filename);
     
@@ -39,7 +32,6 @@ bool FileHandler::writeTextFile(const string& filename, const string& content) {
     return true;
 }
 
-// Write binary string to file (converts '0' and '1' chars to actual bits)
 bool FileHandler::writeBinaryFile(const string& filename, const string& binaryString) {
     ofstream outFile(filename, ios::binary);
     
@@ -47,7 +39,6 @@ bool FileHandler::writeBinaryFile(const string& filename, const string& binarySt
         return false;
     }
     
-    // Write the original length first (for proper decoding)
     size_t length = binaryString.length();
     outFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
     
@@ -56,7 +47,7 @@ bool FileHandler::writeBinaryFile(const string& filename, const string& binarySt
     int bitCount = 0;
     
     for (char bit : binaryString) {
-        byte = (byte << 1) | (bit - '0');  // Shift and add bit
+        byte = (byte << 1) | (bit - '0');  
         bitCount++;
         
         if (bitCount == 8) {
@@ -66,9 +57,8 @@ bool FileHandler::writeBinaryFile(const string& filename, const string& binarySt
         }
     }
     
-    // Write remaining bits with padding
     if (bitCount > 0) {
-        byte <<= (8 - bitCount);  // Pad with zeros
+        byte <<= (8 - bitCount);  
         outFile.write(reinterpret_cast<char*>(&byte), 1);
     }
     
@@ -76,7 +66,6 @@ bool FileHandler::writeBinaryFile(const string& filename, const string& binarySt
     return true;
 }
 
-// Read binary file and convert to binary string ('0' and '1' chars)
 bool FileHandler::readBinaryFile(const string& filename, string& binaryString) {
     ifstream inFile(filename, ios::binary);
     
@@ -84,7 +73,6 @@ bool FileHandler::readBinaryFile(const string& filename, string& binaryString) {
         return false;
     }
     
-    // Read the original binary string length
     size_t length;
     inFile.read(reinterpret_cast<char*>(&length), sizeof(length));
     
@@ -98,7 +86,6 @@ bool FileHandler::readBinaryFile(const string& filename, string& binaryString) {
         }
     }
     
-    // Trim to original length (remove padding)
     if (binaryString.length() > length) {
         binaryString = binaryString.substr(0, length);
     }
@@ -107,7 +94,6 @@ bool FileHandler::readBinaryFile(const string& filename, string& binaryString) {
     return true;
 }
 
-// Get file size in bytes
 size_t FileHandler::getFileSize(const string& filename) {
     ifstream file(filename, ios::binary | ios::ate);
     if (!file.is_open()) {
@@ -119,7 +105,6 @@ size_t FileHandler::getFileSize(const string& filename) {
     return size;
 }
 
-// Count frequency of each character in text
 unordered_map<char, int> FileHandler::countFrequency(const string& text) {
     unordered_map<char, int> frequencies;
     

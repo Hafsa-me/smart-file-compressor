@@ -14,16 +14,12 @@ public:
     HuffmanNode* left;
     HuffmanNode* right;
     
-    // Constructor for leaf node
     HuffmanNode(char ch, int freq);
     
-    // Constructor for internal node
     HuffmanNode(int freq, HuffmanNode* l, HuffmanNode* r);
     
-    // Check if node is a leaf
     bool isLeaf() const;
     
-    // Destructor
     ~HuffmanNode();
 };
 
